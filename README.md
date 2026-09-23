@@ -26,7 +26,6 @@ network so the streaming job can reach the broker at `kafka:29092`.
 - [Quick start — offline training](#quick-start--offline-training)
 - [Quick start — online / streaming](#quick-start--online--streaming)
 - [Classifiers & hyperparameter grids](#classifiers--hyperparameter-grids)
-- [Model output layout](#model-output-layout)
 - [Environment variables](#environment-variables)
 
 ## Layout
