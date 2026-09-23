@@ -1,0 +1,9 @@
+best_algorithm=DecisionTree
+best_cv_f1=0.8096711644698713
+best_test_f1=0.8062861279373403
+best_params={'maxDepth': 10, 'minInstancesPerNode': 10}
+
+--- All candidates ---
+LogisticRegression: cv_f1=0.8095, test_f1=0.8012, params={'regParam': 0.0, 'elasticNetParam': 0.0}
+RandomForest: cv_f1=0.8018, test_f1=0.7956, params={'numTrees': 50, 'maxDepth': 10}
+DecisionTree: cv_f1=0.8097, test_f1=0.8063, params={'maxDepth': 10, 'minInstancesPerNode': 10}

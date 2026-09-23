@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.feature.VectorAssembler","timestamp":1790096189482,"sparkVersion":"3.5.3","uid":"VectorAssembler_201db93d01a5","paramMap":{"outputCol":"continuous_raw","inputCols":["BMI","MentHlth","PhysHlth"],"handleInvalid":"keep"},"defaultParamMap":{"outputCol":"VectorAssembler_201db93d01a5__output","handleInvalid":"error"}}

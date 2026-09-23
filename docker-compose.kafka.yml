@@ -1,0 +1,51 @@
+# Kafka + Zookeeper stack for the online / streaming phase.
+#
+# Settings are ported from previous_work/docker-compose.yml (Confluent 7.4.0
+# images, dual listeners). Both this stack and the Spark stack in
+# ./docker-compose.yml attach to the shared external network
+# `diabetes-net`, so the Spark containers can reach the broker at
+# kafka:29092 while host-side scripts (e.g. the producer) use
+# localhost:9092.
+#
+# First-time setup (once per machine):
+#     docker network create diabetes-net
+#
+# Usage:
+#     docker compose -f docker-compose.kafka.yml up -d
+#     docker compose -f docker-compose.kafka.yml down
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - diabetes-net
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    hostname: kafka
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    networks:
+      - diabetes-net
+
+networks:
+  diabetes-net:
+    external: true

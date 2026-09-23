@@ -1,0 +1,10 @@
+FROM python:3.11-slim
+
+RUN pip install --no-cache-dir kafka-python==2.0.2
+
+WORKDIR /opt/app
+
+# ENTRYPOINT (not CMD) so extra CLI flags on `docker compose run producer`
+# are forwarded to the script, e.g.:
+#   docker compose run --rm producer --limit 20 --delay 0
+ENTRYPOINT ["python", "-m", "jobs.produce_offline"]
